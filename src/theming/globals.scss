@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap');
+
 *, *::after, *::before {
   box-sizing: border-box;
 }
@@ -5,28 +7,38 @@
 :root {
   --grad-yellow-start: hsl(39, 89%, 49%);
   --grad-yellow-end: hsl(40, 84%, 53%);
+  --grad-yellow-shadow: hsl(40, 74%, 39%);
+
   --grad-blue-start: hsl(230, 89%, 62%);
   --grad-blue-end: hsl(230, 89%, 65%);
+  --grad-blue-shadow: hsl(230, 69%, 52%);
+
   --grad-red-start: hsl(349, 71%, 52%);
   --grad-red-end: hsl(349, 70%, 56%);
+  --grad-red-shadow: hsl(349, 51%, 42%);
+
   --grad-purple-start: hsl(261, 73%, 60%) ;
   --grad-purple-end: hsl(261, 72%, 63%);
+  --grad-purple-shadow: hsl(261, 53%, 50%) ;
+
   --grad-cyan-start: hsl(189, 59%, 53%) ;
   --grad-cyan-end: hsl(189, 58%, 57%);
+  --grad-cyan-shadow: hsl(189, 38%, 43%);
 
   --grad-bkg-start: hsl(214, 47%, 23%);
   --grad-bkg-end: hsl(237, 49%, 15%);
-  
+
+  --grey: hsl(217, 16%, 45%);
+  --lightgrey: hsl(217, 16%, 75%);
   --darkgrey: hsl(229, 25%, 31%);
   --blue: hsl(229, 64%, 46%);
-  --grey: hsl(217, 16%, 45%);
   --white: hsl(0, 0%, 98%);
 }
 
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Barlow Semi Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -34,4 +46,17 @@ body {
   background: radial-gradient(var(--grad-bkg-start), var(--grad-bkg-end));
   width: 100%;
   min-height: 100vh;
+  height: 100%;
+  color: var(--white);
+}
+
+#root {
+  min-height: 100vh;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, li {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
 }
