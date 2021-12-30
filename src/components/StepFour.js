@@ -1,24 +1,31 @@
-import { useEffect } from "react/cjs/react.development";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { GameContext } from "../context/gameContext";
 import { COLORS } from "../theming/colors";
 import { SIZES } from "../theming/spacing";
+import { checkWinDefault, checkWinBonus } from "../utils/checkWin";
 import Circle from "./UI/Circle";
 
-const checkWin = (selection, houseSelection) => {
-  if (selection === "paper" && houseSelection === "rock") return true;
-  if (selection === "rock" && houseSelection === "scissors") return true;
-  if (selection === "scissors" && houseSelection === "paper") return true;
-  return false;
-};
+export default function StepFour() {
+  const navigate = useNavigate();
+  const gameCtx = useContext(GameContext);
+  const selection = gameCtx.state.selection.player;
+  const houseSelection = gameCtx.state.selection.house;
 
-export default function StepFour({ onNext, selection, houseSelection, onWin }) {
-  const handleClick = () => onNext();
+  const handleClick = () => {
+    gameCtx.dispatch({ type: "next" });
+    navigate("/");
+  };
 
-  const winCondition = checkWin(selection, houseSelection);
+  const winCondition =
+    gameCtx.state.game === 0
+      ? checkWinDefault(selection, houseSelection)
+      : checkWinBonus(selection, houseSelection);
   const winConditionText = `You ${winCondition ? "win" : "lose"}`;
 
   useEffect(() => {
-    winCondition && onWin();
+    winCondition && gameCtx.dispatch({ type: "win" });
   }, []);
 
   return (
@@ -41,7 +48,7 @@ export default function StepFour({ onNext, selection, houseSelection, onWin }) {
 }
 
 const Wrapper = styled.div`
-  flex: 1;
+  flex: 0;
   margin-top: ${SIZES.large};
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 2fr;

@@ -5,14 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ModalProvider } from "styled-react-modal";
+import { GameProvider } from "./context/gameContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ModalProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ModalProvider>
+    <GameProvider>
+      <ModalProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ModalProvider>
+    </GameProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

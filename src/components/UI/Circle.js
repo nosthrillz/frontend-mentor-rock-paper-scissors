@@ -3,6 +3,8 @@ import styled, { keyframes } from "styled-components";
 import Paper from "../../images/icon-paper.svg";
 import Rock from "../../images/icon-rock.svg";
 import Scissors from "../../images/icon-scissors.svg";
+import Lizard from "../../images/icon-lizard.svg";
+import Spock from "../../images/icon-spock.svg";
 import { COLORS } from "../../theming/colors";
 
 const circleTypes = {
@@ -20,6 +22,16 @@ const circleTypes = {
     src: Paper,
     color: COLORS.blue.end,
     shadow: COLORS.blue.shadow,
+  },
+  lizard: {
+    src: Lizard,
+    color: COLORS.purple.end,
+    shadow: COLORS.purple.shadow,
+  },
+  spock: {
+    src: Spock,
+    color: COLORS.cyan.end,
+    shadow: COLORS.cyan.shadow,
   },
 };
 

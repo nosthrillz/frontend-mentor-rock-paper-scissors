@@ -1,12 +1,22 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { GameContext } from "../context/gameContext";
 import { COLORS } from "../theming/colors";
 import { SIZES } from "../theming/spacing";
 import Circle from "./UI/Circle";
 
-export default function StepThree({ onNext, selection, houseSelection }) {
+export default function StepThree() {
+  const gameCtx = useContext(GameContext);
+  const selection = gameCtx.state.selection.player;
+  const houseSelection = gameCtx.state.selection.house;
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const timeout = setTimeout(() => onNext(), 1000);
+    const timeout = setTimeout(() => {
+      gameCtx.dispatch({ type: "next" });
+      navigate("/step4");
+    }, 1000);
 
     return () => {
       clearTimeout(timeout);
@@ -24,7 +34,7 @@ export default function StepThree({ onNext, selection, houseSelection }) {
 }
 
 const Wrapper = styled.div`
-  flex: 1;
+  flex: 0;
   margin-top: ${SIZES.large};
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 2fr;
@@ -34,6 +44,7 @@ const Wrapper = styled.div`
   grid-template-rows: min-content;
   justify-content: center;
   justify-items: center;
+  align-items: center;
   gap: ${SIZES.large};
   text-align: center;
 

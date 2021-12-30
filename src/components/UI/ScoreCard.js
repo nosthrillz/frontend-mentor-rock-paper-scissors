@@ -1,12 +1,17 @@
+import { useContext } from "react";
 import styled from "styled-components";
+import { GameContext } from "../../context/gameContext";
 import { COLORS } from "../../theming/colors";
 import { SIZES } from "../../theming/spacing";
 
-export default function ScoreCard({ score = 12 }) {
+export default function ScoreCard() {
+  const gameCtx = useContext(GameContext);
+  const wins = gameCtx.state.wins;
+
   return (
     <Wrapper>
       <Label>SCORE</Label>
-      <Score>{score}</Score>
+      <Score>{wins}</Score>
     </Wrapper>
   );
 }

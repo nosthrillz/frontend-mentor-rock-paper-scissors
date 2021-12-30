@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, Routes, Route, useLocation } from "react-router-dom";
 
 import styled from "styled-components";
@@ -11,87 +11,44 @@ import StepThree from "./components/StepThree";
 import StepFour from "./components/StepFour";
 
 import Rules from "./images/image-rules.svg";
+import RulesBonus from "./images/image-rules-bonus.svg";
 import CloseIcon from "./images/icon-close.svg";
 
 import { SIZES } from "./theming/spacing";
 import { COLORS } from "./theming/colors";
+import { GAMES } from "./theming/games";
+import { GameContext } from "./context/gameContext";
 
 function App() {
-  const [wins, setWins] = useState(0);
-  const [selection, setSelection] = useState("");
-  const [houseSelection, setHouseSelection] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const gameCtx = useContext(GameContext);
+  const game = gameCtx.state.game;
+  const selection = gameCtx.state.selection.player;
 
-  function toggleModal() {
+  console.log(game);
+
+  const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
-  }
-
-  const resolveStepOne = (e) => {
-    setSelection(e);
-    navigate("/step2");
-  };
-  const resolveStepTwo = (e) => {
-    setHouseSelection(e);
-    navigate("/step3");
-  };
-  const resolveStepThree = () => {
-    navigate("/step4");
-    //update score
-  };
-  const resolveStepFour = (winCondition) => {
-    setSelection("");
-    setHouseSelection("");
-    navigate("/");
   };
 
   return (
     <Container>
-      <Header wins={wins} />
+      <Header />
       <Routes>
-        <Route path="/" exact element={<StepOne onNext={resolveStepOne} />} />
+        <Route path="/" exact element={<StepOne />} />
         {!!selection && (
           <>
-            <Route
-              path="/step2"
-              exact
-              element={
-                <StepTwo
-                  onNext={resolveStepTwo}
-                  selection={selection.toString()}
-                />
-              }
-            />
-            <Route
-              path="/step3"
-              exact
-              element={
-                <StepThree
-                  onNext={resolveStepThree}
-                  selection={selection.toString()}
-                  houseSelection={houseSelection.toString()}
-                />
-              }
-            />
-            <Route
-              path="/step4"
-              exact
-              element={
-                <StepFour
-                  onNext={resolveStepFour}
-                  onWin={() => setWins(wins + 1)}
-                  selection={selection.toString()}
-                  houseSelection={houseSelection.toString()}
-                />
-              }
-            />
+            <Route path="/step2" exact element={<StepTwo />} />
+            <Route path="/step3" exact element={<StepThree />} />
+            <Route path="/step4" exact element={<StepFour />} />
           </>
         )}
       </Routes>
       {!selection && location.pathname !== "/" && (
         <>
-          <h1>You refreshed the page and lost your score.</h1>
+          <h1>Game refreshed.</h1>
           <PlayAgain onClick={() => navigate("/")}>Start over</PlayAgain>
         </>
       )}
@@ -104,8 +61,12 @@ function App() {
         onEscapeKeydown={toggleModal}
       >
         <ModalContent>
-          <ModalTitle>Rules</ModalTitle>
-          <ModalImage src={Rules} alt="game rules" />
+          <ModalTitle
+            title={game === 0 ? GAMES.default.title : GAMES.bonus.title}
+          >
+            Rules
+          </ModalTitle>
+          <ModalImage src={game === 0 ? Rules : RulesBonus} alt="game rules" />
           <ModalClose src={CloseIcon} alt="close icon" onClick={toggleModal} />
         </ModalContent>
       </StyledModal>
@@ -121,6 +82,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${SIZES.large};
+  min-height: 100vh;
 `;
 
 const ViewRules = styled.button`
@@ -133,14 +95,11 @@ const ViewRules = styled.button`
   letter-spacing: 0.25ch;
   min-width: 100px;
   text-align: center;
-  position: fixed;
-  right: ${SIZES.small};
-  bottom: ${SIZES.default};
+  margin-top: auto;
+  align-self: end;
 
   @media only screen and (max-width: 500px) {
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: ${SIZES.large};
+    align-self: center;
   }
 
   &:hover,
@@ -192,9 +151,20 @@ const ModalTitle = styled.h1`
   font-size: ${SIZES.large};
   text-transform: uppercase;
   justify-self: flex-start;
+  text-align: left;
 
   @media only screen and (max-width: 500px) {
     justify-self: revert;
+    text-align: center;
+  }
+
+  &:after {
+    content: ${(props) => `'${props.title}'`};
+    display: block;
+    font-size: ${SIZES.small};
+    color: ${COLORS.grey.default};
+    font-weight: 600;
+    padding-top: ${SIZES.small};
   }
 `;
 

@@ -1,23 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { GameContext } from "../context/gameContext";
 import { COLORS } from "../theming/colors";
 import { SIZES } from "../theming/spacing";
 import Circle from "./UI/Circle";
+import { randomChooser } from "../utils/randomChooser";
 
-const randomChooser = (selection) => {
-  const options = ["rock", "paper", "scissors"];
-  let value;
-  do {
-    value = options[Math.floor(Math.random() * options.length)];
-  } while (value == selection);
-  return value;
-};
-
-export default function StepTwo({ onNext, selection }) {
-  const randomValue = randomChooser(selection);
+export default function StepTwo() {
+  const gameCtx = useContext(GameContext);
+  const selection = gameCtx.state.selection.player;
+  const houseSelection = randomChooser(selection, gameCtx.state.game);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const timeout = setTimeout(() => onNext(randomValue), 1500);
+    const timeout = setTimeout(() => {
+      gameCtx.dispatch({ type: "housePick", payload: houseSelection });
+      gameCtx.dispatch({ type: "next" });
+      navigate("/step3");
+    }, 1500);
 
     return () => {
       clearTimeout(timeout);
@@ -35,7 +36,7 @@ export default function StepTwo({ onNext, selection }) {
 }
 
 const Wrapper = styled.div`
-  flex: 1;
+  flex: 0;
   margin-top: ${SIZES.large};
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 2fr;
@@ -78,6 +79,7 @@ const Title = styled.p`
   font-weight: 700;
   letter-spacing: 0.15ch;
   font-size: ${SIZES.medium};
+  text-align: center;
 `;
 
 const pulse = keyframes`
