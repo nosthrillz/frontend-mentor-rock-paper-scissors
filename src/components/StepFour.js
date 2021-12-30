@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { GameContext } from "../context/gameContext";
 import { COLORS } from "../theming/colors";
 import { SIZES } from "../theming/spacing";
@@ -26,7 +26,7 @@ export default function StepFour() {
 
   useEffect(() => {
     winCondition && gameCtx.dispatch({ type: "win" });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Wrapper>
@@ -93,12 +93,6 @@ const Title = styled.p`
   letter-spacing: 0.15ch;
   font-size: ${SIZES.medium};
   text-align: center;
-`;
-
-const pulse = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(0.75); }
-  100% { transform: scale(1); }
 `;
 
 const Results = styled.div`

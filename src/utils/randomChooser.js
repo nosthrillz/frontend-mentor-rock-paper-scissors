@@ -4,6 +4,6 @@ export const randomChooser = (selection, game) => {
   let value;
   do {
     value = options[Math.floor(Math.random() * options.length)];
-  } while (value == selection);
+  } while (value == selection); // eslint-disable-line eqeqeq
   return value;
 };

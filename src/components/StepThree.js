@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { GameContext } from "../context/gameContext";
 import { COLORS } from "../theming/colors";
 import { SIZES } from "../theming/spacing";
@@ -16,7 +16,7 @@ export default function StepThree() {
     const timeout = setTimeout(() => {
       gameCtx.dispatch({ type: "next" });
       navigate("/step4");
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timeout);
